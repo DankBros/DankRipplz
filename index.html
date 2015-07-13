@@ -18,7 +18,6 @@
 
   circle {
     fill: none;
-    stroke: #cc0000;
   }
 
   </style>
@@ -41,22 +40,23 @@
 
   svg.on("click", function () { //<-D
     var position = d3.mouse(svg.node());
-    createRipple(position[0], position[1])
-    ref.push({x: position[0], y: position[1]})
+    createRipple(position[0], position[1], colorR, colorG, colorB)
+    ref.push({x: position[0], y: position[1], r: colorR, g: colorG, b: colorB})
   });
 
 
 
   ref.on('child_added', function(snapshot){
     alert('tr')
-    createRipple(snapshot.child('x').val(), snapshot.child('y').val())
+    createRipple(snapshot.child('x').val(), snapshot.child('y').val(), snapshot.child('r').val(), snapshot.child('g').val(), snapshot.child('b').val())
   })
 
-  function createRipple(ex, ey){
+  function createRipple(ex, ey, r, g, b){
     for (var i = 1; i < 5; ++i) {
       
 
       var circle = svg.append("circle")
+      .style('stroke', 'rgb(' + r + ',' + g + ',' + b + ')')
       .attr("cx", ex)
       .attr("cy", ey)
       .attr("r", 0)
