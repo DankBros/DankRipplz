@@ -1,3 +1,78 @@
-<html>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Clicks</title>
+  <style>
+  body {
+    font-family: "helvetica";
+    height: 100%;
+  }
+
+  svg {
+    cursor: pointer;
+    width: 100%;
+    height: 900px;
+  }
+
+  circle {
+    fill: none;
+    stroke: #cc0000;
+  }
+
+  </style>
+  <script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+
+<body>
+
+  <script type="text/javascript">
+  var r = 400;
+  var ref = new Firebase('https://dankripplz.firebaseio.com')
+
+  var svg = d3.select("body")
+  .append("svg");
+
+  var positionLabel = svg.append("text")
+  .attr("x", 10)
+  .attr("y", 30);
+
+  svg.on("click", function () { //<-D
+    var position = d3.mouse(svg.node());
+    createRipple(position[0], position[1])
+    ref.push({x: position[0], y: position[1]})
+  });
+
+
+
+  ref.on('child_added', function(snapshot){
+    alert(snapshot.child('x').val())
+    alert(snapshot.child('y').val())
+    createRipple(position[0], position[1])
+  })
+
+  function createRipple(ex, ey){
+    for (var i = 1; i < 5; ++i) {
+      
+
+      var circle = svg.append("circle")
+      .attr("cx", ex)
+      .attr("cy", ey)
+      .attr("r", 0)
+      .style("stroke-width", 5 / (i))
+      .transition()
+      .delay(Math.pow(i, 2.5) * 50)
+      .duration(2000)
+      .ease('quad-in')
+      .attr("r", r)
+      .style("stroke-opacity", 0)
+      .each("end", function () {
+        d3.select(this).remove();
+      });
+    }
+  }
+  </script>
+</body>
 </html>
