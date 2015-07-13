@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <meta charset="utf-8">
   <style>
   body {
@@ -29,6 +30,15 @@
 <body>
 
   <script type="text/javascript">
+ 
+  var colorR;
+  var colorG;
+  var colorB;
+  $( document ).ready(function() {
+      colorR = Math.floor((Math.random() * 155) + 100);
+      colorG = Math.floor((Math.random() * 155) + 100);
+      colorB = Math.floor((Math.random() * 155) + 100);
+  });
   var r = 400;
   var ref = new Firebase('https://dankripplz.firebaseio.com')
 
@@ -52,11 +62,12 @@
     createRipple(snapshot.child('x').val(), snapshot.child('y').val())
   })
 
-  function createRipple(ex, ey){
+  function createRipple(ex, ey, r,g,b){
+    $("circle").css("stroke","")
     for (var i = 1; i < 5; ++i) {
       
 
-      var circle = svg.append("circle")
+      var circle = svg.append("circle","rgb(r,g,b)")
       .attr("cx", ex)
       .attr("cy", ey)
       .attr("r", 0)
