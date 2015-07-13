@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <meta charset="utf-8">
   <style>
   body {
@@ -28,6 +29,15 @@
 <body>
 
   <script type="text/javascript">
+ 
+  var colorR;
+  var colorG;
+  var colorB;
+  $( document ).ready(function() {
+      colorR = Math.floor((Math.random() * 155) + 100);
+      colorG = Math.floor((Math.random() * 155) + 100);
+      colorB = Math.floor((Math.random() * 155) + 100);
+  });
   var r = 400;
   var ref = new Firebase('https://dankripplz.firebaseio.com')
 
