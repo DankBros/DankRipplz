@@ -47,7 +47,8 @@
 
 
   ref.on('child_added', function(snapshot){
-    createRipple(position[0], position[1])
+    alert('tr')
+    createRipple(snapshot.child('x').val(), snapshot.child('y').val())
   })
 
   function createRipple(ex, ey){
