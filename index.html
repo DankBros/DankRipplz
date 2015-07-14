@@ -144,9 +144,9 @@
   var colorG
   var colorB
   $( document ).ready(function() {
-      colorR = Math.floor((Math.random() * 155) + 100);
-      colorG = Math.floor((Math.random() * 155) + 100);
-      colorB = Math.floor((Math.random() * 155) + 100);
+      colorR = Math.floor((Math.random() * 255));
+      colorG = Math.floor((Math.random() * 255));
+      colorB = Math.floor((Math.random() * 255));
 
   });
   function turnUp(){
@@ -164,7 +164,7 @@
 
 
 
-  var r = 400;
+  var r1 = 400;
   var ref = new Firebase('https://dankripplz.firebaseio.com')
 
   var svg = d3.select("body")
@@ -241,7 +241,7 @@
       .delay(Math.pow(i, 2.5) * 50)
       .duration(2000)
       .ease('quad-in')
-      .attr("r", r)
+      .attr("r", Math.floor((Math.random() * 155) + 100))
       .style("stroke-opacity", 0)
       .each("end", function () {
         d3.select(this).remove();
