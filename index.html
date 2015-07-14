@@ -9,13 +9,13 @@
   <style>
     @font-face {
       font-family: SanFrancisco;
-      src: url(fonts/SF-UI-Display-Ultralight.otf);
+      src: url(font/SF-UI-Display-Ultralight.otf);
 
     }
 
     body {
 
-      background-color: #1A2A35;
+      background-color: #213D4D;
       font-family: SanFrancisco;
       font-weight: 100;
       height: 100%;
@@ -24,7 +24,7 @@
 
     }
 
-    #swag {
+    #leftswag {
       font-family: SanFrancisco;
       font-size: 2em;
       color: #00B6E2;
@@ -39,13 +39,54 @@
       user-select: none;
     }
 
+    #centerswag {
+      font-family: SanFrancisco;
+      font-size: 2em;
+      color: #12D290;
+      left: 50%;
+      position: fixed;
+      text-align: center;
+      width: 200px;
+      margin-left: -100px; 
+      margin-top:15px;
+
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+    }
+
     #rightswag {
       font-family: SanFrancisco;
       font-size: 2em;
       color: #00B6E2;
-      right: 200px;
+      right: 0px;
       position: absolute;
+      text-align: center;
       margin: 15px;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      
+    }
+
+    #bottomswag {
+      font-family: SanFrancisco;
+      font-size: 0.8em;
+      color: #00B6E2;
+      text-align: center;
+      bottom: 0px;
+      position: fixed;
+      margin: 15px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      
 
       -webkit-touch-callout: none;
       -webkit-user-select: none;
@@ -64,13 +105,14 @@
 
 
     svg {
+      background-color: #1A2A35;
       cursor: pointer;
       width: 9001px;
       height: 9001px;
       border: 1px #00B6E2 solid;
       border-left: 0px;
       border-right: 0px;
-      border-bottom: 0px;
+      border-bottom: 1px #00B6E2 solid;
     }
 
     circle {
@@ -79,14 +121,17 @@
 
   </style>
   <script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
-  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="script/d3.min.js" charset="utf-8"></script>
 </head>
 
 <body>
 
 
-  <p id = "swag">Total Danks: </p>
+  <p id = "leftswag">Total Danks: </p>
   <p id = "rightswag">Online Dankers: </p>
+  <div id = "centerswag">Dank Ripplz</div>
+
+  <p text-align="center" id="bottomswag">Made with 1337 h4x0r skillz by Rohan Iyer, Ayush Jain, Stuart Rucker, and Davin Tjong.</p>
   <audio id="dankstorm" src="audio/dankstorm.mp3" ></audio>
   <audio id="smokeweed" src="audio/smokeweed.mp3" ></audio>
   <audio id="momscamera" src="audio/momgetthecamera.mp3" ></audio>
@@ -147,7 +192,7 @@
   })
 
   ref.child('totaldanks').on('value', function(snapshot){
-    $('#swag').text('Total Danks: ' + snapshot.val())
+    $('#leftswag').text('Total Danks: ' + snapshot.val())
     var totalswags = snapshot.val();
     totalswags = totalswags.toString();
     if(totalswags.includes("69")){
