@@ -28,7 +28,23 @@
       font-size: 2em;
       color: #00B6E2;
       margin: 15px;
-      margin-left: 15px;
+      float: left;
+
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    #rightswag {
+      font-family: SanFrancisco;
+      font-size: 2em;
+      color: #00B6E2;
+      right: 200px;
+      position: absolute;
+      margin: 15px;
 
       -webkit-touch-callout: none;
       -webkit-user-select: none;
@@ -66,17 +82,21 @@
 <body>
 
 
-  <p id = "swag">Total Clicks: </p>
+  <p id = "swag">Total Danks: </p>
+  <p id = "rightswag">Online Dankers: </p>
+
+
 
   <script type="text/javascript">
   var userid = Math.random().toString(36).substr(2, 5)
-  var colorR;
-  var colorG;
-  var colorB;
+  var colorR
+  var colorG
+  var colorB
   $( document ).ready(function() {
       colorR = Math.floor((Math.random() * 155) + 100);
       colorG = Math.floor((Math.random() * 155) + 100);
       colorB = Math.floor((Math.random() * 155) + 100);
+      
   });
   var r = 400;
   var ref = new Firebase('https://dankripplz.firebaseio.com')
@@ -106,6 +126,10 @@
 
   ref.child('totaldanks').on('value', function(snapshot){
     $('#swag').text('Total Danks: ' + snapshot.val())
+  })
+
+  ref.child('presence').on('child_added', function(snapshot){
+    
   })
 
   var amOnline = new Firebase('https://dankripplz.firebaseio.com/.info/connected');
