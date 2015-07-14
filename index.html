@@ -129,7 +129,7 @@
   })
 
   ref.child('presence').on('child_added', function(snapshot){
-    
+    $('#rightswag').text('Online Dankers: ' + snapshot.numChildren())
   })
 
   var amOnline = new Firebase('https://dankripplz.firebaseio.com/.info/connected');
