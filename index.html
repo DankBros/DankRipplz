@@ -29,7 +29,7 @@
 <body>
 
   <script type="text/javascript">
- 
+
   var colorR;
   var colorG;
   var colorB;
@@ -44,32 +44,37 @@
   var svg = d3.select("body")
   .append("svg");
 
+
+
   var positionLabel = svg.append("text")
   .attr("x", 10)
   .attr("y", 30);
 
   svg.on("click", function () { //<-D
+    var dashLength = Math.floor((Math.random() * 20));
+    var spaceLength = Math.floor((Math.random() * 20));
     var position = d3.mouse(svg.node());
-    createRipple(position[0], position[1], colorR, colorG, colorB)
-    ref.push({x: position[0], y: position[1], r: colorR, g: colorG, b: colorB})
+    createRipple(position[0], position[1], colorR, colorG, colorB, dashLength, spaceLength)
+    ref.push({x: position[0], y: position[1], r: colorR, g: colorG, b: colorB, dl: dashLength, sl:spaceLength})
   });
 
 
 
   ref.on('child_added', function(snapshot){
     alert('tr')
-    createRipple(snapshot.child('x').val(), snapshot.child('y').val(), snapshot.child('r').val(), snapshot.child('g').val(), snapshot.child('b').val())
+    createRipple(snapshot.child('x').val(), snapshot.child('y').val(), snapshot.child('r').val(), snapshot.child('g').val(), snapshot.child('b').val(), snapshot.child('dl').val(), snapshot.child('sl').val())
   })
 
-  function createRipple(ex, ey, r, g, b){
+  function createRipple(ex, ey, r, g, b, dl, sl){
     for (var i = 1; i < 5; ++i) {
-      
+
 
       var circle = svg.append("circle")
       .style('stroke', 'rgb(' + r + ',' + g + ',' + b + ')')
       .attr("cx", ex)
       .attr("cy", ey)
       .attr("r", 0)
+      .attr("stroke-dasharray", dl + "," + sl)
       .style("stroke-width", 5 / (i))
       .transition()
       .delay(Math.pow(i, 2.5) * 50)
