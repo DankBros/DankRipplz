@@ -84,7 +84,7 @@
 
   <p id = "swag">Total Danks: </p>
   <p id = "rightswag">Online Dankers: </p>
-
+  <audio id="audio" src="dankstorm.mp3" ></audio>
 
 
   <script type="text/javascript">
@@ -96,8 +96,17 @@
       colorR = Math.floor((Math.random() * 155) + 100);
       colorG = Math.floor((Math.random() * 155) + 100);
       colorB = Math.floor((Math.random() * 155) + 100);
-      
+
   });
+  function turnUp(){
+      var audio = document.getElementById("audio");
+      audio.play();
+  }
+
+
+
+
+
   var r = 400;
   var ref = new Firebase('https://dankripplz.firebaseio.com')
 
@@ -126,10 +135,15 @@
 
   ref.child('totaldanks').on('value', function(snapshot){
     $('#swag').text('Total Danks: ' + snapshot.val())
+    var totalswags = snapshot.val();
+    totalswags = totaldswags.toString();
+    if(totalswags.includes("69")){
+      turnUp();
+    }
   })
 
   ref.child('presence').on('child_added', function(snapshot){
-    
+
   })
 
   var amOnline = new Firebase('https://dankripplz.firebaseio.com/.info/connected');
