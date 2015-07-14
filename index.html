@@ -85,7 +85,9 @@
 
   <p id = "swag">Total Danks: </p>
   <p id = "rightswag">Online Dankers: </p>
-  <audio id="audio" src="dankstorm.mp3" ></audio>
+  <audio id="dankstorm" src="dankstorm.mp3" ></audio>
+  <audio id="smokeweed" src="smokeweed.mp3" ></audio>
+  <audio id="momscamera" src="momgetthecamera.mp3" ></audio>
 
 
   <script type="text/javascript">
@@ -101,11 +103,17 @@
 
   });
   function turnUp(){
-      var audio = document.getElementById("audio");
+      var audio = document.getElementById("dankstorm");
       audio.play();
   }
-
-
+  function smokeWeed(){
+      var audio = document.getElementById("smokeweed");
+      audio.play();
+  }
+  function momsCamera(){
+      var audio = document.getElementById("momscamera");
+      audio.play();
+  }
 
 
 
@@ -142,6 +150,12 @@
     totalswags = totalswags.toString();
     if(totalswags.includes("69")){
       turnUp();
+    }
+    if(totalswags.include("420")){
+      smokeWeed();
+    }
+    if(totalswags.include("1337")){
+      momsCamera();
     }
   })
 
