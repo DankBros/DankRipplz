@@ -97,6 +97,84 @@
     }
 
 
+    #modal {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     background-color: rgba(0,0,0,0.5);
+     z-index: 1000;
+    }
+
+    #modal div {
+     width:300px;
+     margin: 100px auto;
+     height: 60%;
+     background-color: #213D4D;
+     border:1px solid #00B6E2;
+     color: #00B6E2;
+     padding:1px;
+     text-align:center;
+     border-radius: 50px;
+    }
+
+    #modal div input {
+      font-family: SanFrancisco;
+      background-color: #1A2A35;
+      font-size: 20pt;
+      color: #00B6E2;
+      border-width: 0;
+      width: 70%;
+      border-radius: 25px;
+      padding: 10px 20px;
+      position: relative;
+
+    }
+
+    #modal div button {
+      
+      font-family: SanFrancisco;
+      background-color: #00B6E2;
+      font-size: 20pt;
+      color: white;
+      border-width: 0;
+      width: 100px;
+      border-radius: 17px;
+      padding: 5px 10px;
+      position: relative;
+      margin: 10px 17px;
+      margin-bottom: 0px;
+    }
+
+    input:focus{
+      outline-width: 0;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: #00B6E2;
+      width: 90%;
+    }
+
+    ::-webkit-input-placeholder { /* WebKit browsers */
+       color:    #0684a0;
+    }
+    :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+       color:    #0684a0;
+       opacity:  1;
+    }
+    ::-moz-placeholder { /* Mozilla Firefox 19+ */
+       color:    #0684a0;
+       opacity:  1;
+    }
+    :-ms-input-placeholder { /* Internet Explorer 10+ */
+       color:    #0684a0;
+    }
+
     g {
       width: 100px;
       height: 100px;
@@ -126,9 +204,26 @@
 
 <body>
 
+  <div id="modal">
+     <div id = "modallogin">
+        <h2>Login</h2>
+
+        <form>
+          <br>
+          <input type="text" autocomplete='off' name="nick" placeholder="nick"/><br><br>
+          <button id = 'authButton' type="button" onclick="preAuthUser()" >join</button>
+
+          <button type="button" onclick="authUser('anon')" >anon</button>  
+          <br>
+          <br>
+          <hr/>
+        </form>
+     </div>
+  </div>
+
 
   <p id = "leftswag">Total Danks: </p>
-  <p id = "rightswag">Online Dankers: </p>
+  <p id = "rightswag">Online Dankers</p>
   <div id = "centerswag">Dank Ripplz</div>
 
   <p text-align="center" id="bottomswag">Made with 1337 h4x0r skillz by Rohan Iyer, Ayush Jain, Stuart Rucker, and Davin Tjong.</p>
@@ -143,10 +238,13 @@
   var colorR
   var colorG
   var colorB
+  
   $( document ).ready(function() {
       colorR = Math.floor((Math.random() * 255));
       colorG = Math.floor((Math.random() * 255));
       colorB = Math.floor((Math.random() * 255));
+      overlay()
+
 
   });
   function turnUp(){
@@ -161,7 +259,77 @@
       var audio = document.getElementById("momscamera");
       audio.play();
   }
+  function overlay() {
+    var el = document.getElementById("modal");
+    $('#modallogin').fadeOut(0)
+    el.style.visibility = "visible"
+    $("#modallogin").fadeIn(500)
 
+  }
+  function overlayclose() {
+    var el = document.getElementById("modal");
+    $('#modal').fadeOut(500, function(){
+      el.style.visibility = 'hidden'
+    })  
+  }
+
+  function preAuthUser() {
+    var e = document.getElementsByName('nick')[0];
+    var val = e.value;
+    authUser(val)
+  }
+
+
+  function randomNum(min, max){
+    return num = Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function authUser(username) {
+    ref.child('presence').once('value', function(snapshot) {
+      if (snapshot.hasChild(username) && username != 'anon') {
+          console.log('username taken')
+          usernameTaken()
+      }else{
+        ref.authAnonymously(function(error, authData) {
+          if (error) {
+            console.log("Login Failed!", error);
+          } else {
+            overlayclose()
+            console.log("Authenticated successfully with payload:", authData);
+            if(username == 'anon'){
+              username = 'anon' + randomNum(1, 1000000)
+            }
+
+            userid = username
+            var amOnline = new Firebase('https://dankripplz.firebaseio.com/.info/connected');
+            var userRef = new Firebase('https://dankripplz.firebaseio.com/presence/' + userid);
+            amOnline.on('value', function(snapshot) {
+              if (snapshot.val()) {
+                userRef.onDisconnect().remove();
+                userRef.set(true);
+              }
+            });
+          }
+        });
+      }
+    });  
+  }
+
+  function usernameTaken(){
+    // $('#authButton').animate({
+    //   backgroundColor: '#ff3d57'
+
+    // },{
+    //  duration: 500,
+    //  complete: function(){
+    //   console.log('gitge')
+    //   $('#authButton').animate({
+    //     //backgroundColor: '#00B6E2',
+
+    //   },{duration: 500})
+    // }})
+    $('#authButton').animate({backgroundColor: 'yellow'}, 1000, function(){console.log('this')});
+  }
 
 
   var r1 = 400;
@@ -211,14 +379,7 @@
 
   })
 
-  var amOnline = new Firebase('https://dankripplz.firebaseio.com/.info/connected');
-  var userRef = new Firebase('https://dankripplz.firebaseio.com/presence/' + userid);
-  amOnline.on('value', function(snapshot) {
-    if (snapshot.val()) {
-      userRef.onDisconnect().remove();
-      userRef.set(true);
-    }
-  });
+  
 
 
   function createRipple(ex, ey, r, g, b, dl, sl){
